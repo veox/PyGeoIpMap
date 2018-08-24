@@ -33,7 +33,7 @@ def get_lat_lon(ip_list=[], lats=[], lons=[]):
     for ip in ip_list:
         r = requests.get("https://freegeoip.net/json/" + ip)
         json_response = r.json()
-        print("{ip}, {region_name}, {country_name}, {latitude}, {longitude}".format(**json_response))
+        #print("{ip}, {region_name}, {country_name}, {latitude}, {longitude}".format(**json_response))
         if json_response['latitude'] and json_response['longitude']:
             lats.append(json_response['latitude'])
             lons.append(json_response['longitude'])
@@ -53,7 +53,7 @@ def geoip_lat_lon(gi, ip_list=[], lats=[], lons=[]):
             print("Unable to locate IP: %s" % ip)
             continue
         if r is not None:
-            print("%s {country_code} {latitude}, {longitude}".format(**r) % ip)
+            #print("%s {country_code} {latitude}, {longitude}".format(**r) % ip)
             lats.append(r['latitude'])
             lons.append(r['longitude'])
     return lats, lons

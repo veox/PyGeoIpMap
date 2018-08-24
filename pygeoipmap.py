@@ -80,7 +80,7 @@ def get_lat_lon_from_csv(csv_file, lats=[], lons=[]):
     return lats, lons
 
 
-def generate_map(output, lats=[], lons=[], wesn=None):
+def generate_map(output, lats=[], lons=[], wesn=None, dpi=120):
     """
     Using Basemap and the matplotlib toolkit, this function generates a map and
     puts a red dot at the location of every IP addresses found in the list.
@@ -96,8 +96,8 @@ def generate_map(output, lats=[], lons=[], wesn=None):
         m = Basemap(projection='cyl', resolution='l')
     m.bluemarble()
     x, y = m(lons, lats)
-    m.scatter(x, y, s=1, color='#ff0000', marker='o', alpha=0.3)
-    plt.savefig(output, dpi=300, bbox_inches='tight')
+    m.scatter(x, y, s=5, color='#00dddd', marker='o', alpha=0.15)
+    plt.savefig(output, dpi=dpi, bbox_inches='tight', pad_inches=0, transparent=True)
 
 
 def main():
@@ -110,6 +110,7 @@ def main():
     parser.add_argument('-s', '--service', default='f', choices=['f','m'], help='Geolocation service (f=FreeGeoIP, m=MaxMind local database)')
     parser.add_argument('-db', '--db', default='./GeoLiteCity.dat', help='Full path to MaxMind database file (default = ./GeoLiteCity.dat)')
     parser.add_argument('--extents', default=None, help='Extents for the plot (west/east/south/north). Default global.')
+    parser.add_argument('--dpi', type=int, default=120, help='DPI (dots per inch) for the plot. Default 120.')
     args = parser.parse_args()
 
     output = args.output
@@ -124,7 +125,7 @@ def main():
     elif args.format == 'csv':
         lats, lons = get_lat_lon_from_csv(args.input)
 
-    generate_map(output, lats, lons, wesn=args.extents)
+    generate_map(output, lats, lons, wesn=args.extents, dpi=args.dpi)
 
 
 if __name__ == '__main__':
